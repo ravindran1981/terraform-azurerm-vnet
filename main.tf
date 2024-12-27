@@ -1,8 +1,15 @@
+
+resource "azurerm_resource_group" "Network" {
+  name     = var.resource_group_name
+  location = var.vnet_location
+}
+
+
 resource "azurerm_virtual_network" "vnet" {
   address_space       = var.address_space
-  location            = var.vnet_location
-  name                = var.vnet_name
   resource_group_name = var.resource_group_name
+  vnet_location       = var.vnet_location
+  vnet_name           = var.vnet_name
   bgp_community       = var.bgp_community
   tags = merge(var.tags, (/*<box>*/ (var.tracing_tags_enabled ? { for k, v in /*</box>*/ {
     avm_git_commit           = "2b2f05969200c71b6609f4cdfa9120d48af55537"
@@ -27,6 +34,7 @@ resource "azurerm_virtual_network" "vnet" {
   lifecycle {
     ignore_changes = [dns_servers]
   }
+  depends_on = [azurerm_resource_group.Network]
 }
 
 resource "azurerm_virtual_network_dns_servers" "this" {
