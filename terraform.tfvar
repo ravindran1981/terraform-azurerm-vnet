@@ -1,3 +1,0 @@
-resource_group_name = "PTS-MOS-Network"
-vnet_location       = "Central India"
-vnet_name           = "MOS-Network"
